@@ -58,6 +58,8 @@ export default function (el, config) {
     SUNRAYS: true,
     SUNRAYS_RESOLUTION: 196,
     SUNRAYS_WEIGHT: 1.0,
+    SPLAT_INTERVAL: 4000,
+    SPLAT_AMOUNT: 3,
     ...config,
   }
 
@@ -1082,6 +1084,8 @@ export default function (el, config) {
   initFramebuffers()
   config.IMMEDIATE && multipleSplats(parseInt(Math.random() * 20) + 5)
 
+  config.SPLAT_INTERVAL > 0 && setInterval(() => splatStack.push(parseInt(Math.random() * config.SPLAT_AMOUNT) + config.SPLAT_AMOUNT), config.SPLAT_INTERVAL)
+
   let lastUpdateTime = Date.now()
   let colorUpdateTimer = 0.0
   update()
@@ -1436,12 +1440,12 @@ export default function (el, config) {
     }
   })
 
-  window.addEventListener('keydown', e => {
-    if (e.code === 'KeyP')
-      config.PAUSED = !config.PAUSED
-    if (e.key === ' ')
-      splatStack.push(parseInt(Math.random() * 20) + 5)
-  })
+  // window.addEventListener('keydown', e => {
+  //   if (e.code === 'KeyP')
+  //     config.PAUSED = !config.PAUSED
+  //   if (e.key === ' ')
+  //     splatStack.push(parseInt(Math.random() * 20) + 5)
+  // })
 
   function updatePointerDownData (pointer, id, posX, posY) {
     pointer.id = id
